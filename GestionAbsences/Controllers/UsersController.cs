@@ -15,6 +15,7 @@ using System.IO;
 
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
+using System.ComponentModel.DataAnnotations;
 
 namespace GestionAbsences.Controllers
 {
@@ -73,7 +74,7 @@ namespace GestionAbsences.Controllers
          /// <param name="request"></param>
          /// <returns></returns>
         [HttpPost("register")]
-        public ActionResult<Users> Register(UserDto request)
+        public ActionResult<Users> Register([FromForm][Required] UserDto request)
         {
 
             string jsonUser = System.Text.Json.JsonSerializer.Serialize(UsersService.GetAll()) ;
@@ -93,7 +94,7 @@ namespace GestionAbsences.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost("login")]
-        public ActionResult<Users> Login( UserDto request) 
+        public ActionResult<Users> Login( [FromForm][Required] UserDto request) 
         {
             string list_users = System.IO.File.ReadAllText("F:/MS2D1/Dot_Net_Csharp/mes_notes/Csharp/GestionAbsences/GestionAbsences/user_list.json");
               List<Users> users = new List<Users>();
@@ -138,12 +139,14 @@ namespace GestionAbsences.Controllers
             var signinKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Mais pourquoi ma clé de connexion ne marche pas"));
            
             var cred = new SigningCredentials(signinKey, SecurityAlgorithms.HmacSha256);
-            
+
             var token = new JwtSecurityToken(
+                issuer: "",
                 claims: claims,
                 expires: DateTime.Now.AddDays(1),
+                audience: "3IL Test",
                 signingCredentials: cred
-                );
+                ) ;
 
             var jWt = new JwtSecurityTokenHandler().WriteToken(token);
 

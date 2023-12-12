@@ -3,6 +3,7 @@ using GestionAbsences.Models;
 using GestionAbsences.Services;
 using System.Net.Mime;
 using Microsoft.AspNetCore.Authorization;
+using System.ComponentModel.DataAnnotations;
 
 namespace GestionAbsences.Controllers
 {
@@ -32,7 +33,7 @@ namespace GestionAbsences.Controllers
 
         // Get By Id action
         [HttpGet("{id}")]
-        public ActionResult<Etudiant> Get(int id)
+        public ActionResult<Etudiant> Get( int id)
         {
             var etudiant = EtudiantService.Get(id);
             if (etudiant == null)
